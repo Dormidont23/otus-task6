@@ -23,4 +23,10 @@ total 0\
 [root@nfsc ~]# **cd /mnt/upload**\
 [root@nfsc upload]# **ls -l**\
 total 0\
--rw-r--r--. 1 root root 0 Dec 14 13:49 check_file
+-rw-r--r--. 1 root root 0 Dec 14 13:49 check_file\
+Создаём тестовый файл и проверяем, что он успешно создан:\
+[root@nfsc upload]# **touch client_file**\
+[root@nfsc upload]# **ls -l**\
+total 0\
+-rw-r--r--. 1 root      root      0 Dec 14 13:49 check_file\
+-rw-r--r--. 1 nfsnobody nfsnobody 0 Dec 14 13:57 client_file
