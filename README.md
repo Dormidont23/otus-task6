@@ -12,9 +12,15 @@
 
 После развёртывания ВМ проверим работоспособность стенда.
 
-На сервере заходим в каталог **/srv/share/upload** и создаём тестовый файл **touch check_file**:\
+На сервере заходим в каталог **/srv/share/upload** и создаём тестовый файл:\
 [root@nfss ~]# **cd /srv/share/upload**\
 [root@nfss upload]# **touch check_file**\
 [root@nfss upload]# **ls -l**\
+total 0\
+-rw-r--r--. 1 root root 0 Dec 14 13:49 check_file
+
+Заходим на клиент в каталог **/mnt/upload** и проверяем наличие ранее созданного файла:\
+[root@nfsc ~]# **cd /mnt/upload**\
+[root@nfsc upload]# **ls -l**\
 total 0\
 -rw-r--r--. 1 root root 0 Dec 14 13:49 check_file
