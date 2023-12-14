@@ -29,4 +29,19 @@ total 0\
 [root@nfsc upload]# **ls -l**\
 total 0\
 -rw-r--r--. 1 root      root      0 Dec 14 13:49 check_file\
+-rw-r--r--. 1 nfsnobody nfsnobody 0 Dec 14 13:57 client_file\
+Перезагружаем клиент, заходим в каталог **/mnt/upload** и проверяем наличие ранее созданных файлов:\
+[root@nfsc ~]# **cd /mnt/upload**\
+[root@nfsc upload]# **ls -l**\
+total 0\
+-rw-r--r--. 1 root      root      0 Dec 14 13:49 check_file\
 -rw-r--r--. 1 nfsnobody nfsnobody 0 Dec 14 13:57 client_file
+
+Заходим на сервер в отдельном окне терминала, перезагружаем сервер и снова заходим на сервер. Проверяем наличие файлов в каталоге **/srv/share/upload:**\
+[root@nfss ~]# **cd /srv/share/upload**\
+[root@nfss upload]# **ls -l**\
+total 0\
+-rw-r--r--. 1 root      root      0 Dec 14 13:49 check_file\
+-rw-r--r--. 1 nfsnobody nfsnobody 0 Dec 14 13:57 client_file
+
+
