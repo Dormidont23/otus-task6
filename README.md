@@ -42,7 +42,8 @@ total 0\
 [root@nfss upload]# **ls -l**\
 total 0\
 -rw-r--r--. 1 root      root      0 Dec 14 13:49 check_file\
--rw-r--r--. 1 nfsnobody nfsnobody 0 Dec 14 13:57 client_file\
+-rw-r--r--. 1 nfsnobody nfsnobody 0 Dec 14 13:57 client_file
+
 Проверяем статус сервера NFS:\
 [root@nfss upload]# **systemctl status nfs**\
 ● nfs-server.service - NFS server and services\
@@ -57,7 +58,8 @@ total 0\
    CGroup: /system.slice/nfs-server.service
 
 Dec 14 14:04:58 nfss systemd[1]: Starting NFS server and services...\
-Dec 14 14:04:58 nfss systemd[1]: Started NFS server and services.\
+Dec 14 14:04:58 nfss systemd[1]: Started NFS server and services.
+
 Проверяем статус firewall:\
 [root@nfss upload]# **systemctl status firewalld**\
 ● firewalld.service - firewalld - dynamic firewall daemon\
@@ -71,12 +73,40 @@ Dec 14 14:04:58 nfss systemd[1]: Started NFS server and services.\
 Dec 14 14:04:52 nfss systemd[1]: Starting firewalld - dynamic firewall daemon...\
 Dec 14 14:04:53 nfss systemd[1]: Started firewalld - dynamic firewall daemon.\
 Dec 14 14:04:54 nfss firewalld[402]: WARNING: AllowZoneDrifting is enabled. This is considered an insecure configuration option. It will ...g it now.\
-Hint: Some lines were ellipsized, use -l to show in full.\
+Hint: Some lines were ellipsized, use -l to show in full.
+
 Проверяем экспортированный каталог:\
 [root@nfss upload]# **exportfs -s**\
-/srv/share  192.168.56.11/32(sync,wdelay,hide,no_subtree_check,sec=sys,rw,secure,root_squash,no_all_squash)\
+/srv/share  192.168.56.11/32(sync,wdelay,hide,no_subtree_check,sec=sys,rw,secure,root_squash,no_all_squash)
+
 Проверяем работу RPC:\
 [root@nfss upload]# **showmount -a 192.168.56.10**\
 All mount points on 192.168.56.10:\
 192.168.56.11:/srv/share
 
+Возвращаемся на клиент, перезагружаем его, заходим и проверяем работу RPC:\
+[root@nfsc ~]# **showmount -a 192.168.56.10**\
+All mount points on 192.168.56.10:\
+192.168.56.11:/srv/share
+
+Проверяем статус монтирования:\
+[root@nfsc ~]# **mount | grep mnt**\
+systemd-1 on /mnt type autofs (rw,relatime,fd=32,pgrp=1,timeout=0,minproto=5,maxproto=5,direct,pipe_ino=11106)\
+192.168.56.10:/srv/share/ on /mnt type nfs (rw,relatime,vers=3,rsize=32768,wsize=32768,namlen=255,hard,proto=udp,timeo=11,retrans=3,sec=sys,mountaddr=192.168.56.10,mountvers=3,mountport=20048,mountproto=udp,local_lock=none,addr=192.168.56.10)
+
+Заходим в каталог /mnt/upload и проверяем наличие ранее созданных файлов:\
+[root@nfsc ~]# **cd /mnt/upload**\
+[root@nfsc upload]# **ls -l**\
+total 0\
+-rw-r--r--. 1 root      root      0 Dec 14 13:49 check_file\
+-rw-r--r--. 1 nfsnobody nfsnobody 0 Dec 14 13:57 client_file
+
+Создаём тестовый файл и проверяем, что он успешно создан:\
+[root@nfsc upload]# **touch final_check**\
+[root@nfsc upload]# **ls -l**\
+total 0\
+-rw-r--r--. 1 root      root      0 Dec 14 13:49 check_file\
+-rw-r--r--. 1 nfsnobody nfsnobody 0 Dec 14 13:57 client_file\
+-rw-r--r--. 1 nfsnobody nfsnobody 0 Dec 14 14:24 final_check
+
+Все проверки пройдены. Стенд работоспособен.
